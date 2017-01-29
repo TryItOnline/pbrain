@@ -96,7 +96,7 @@ interpreter are as follows:
 
 // By default, use a dynamic array to store memory locations.
 #ifndef PBRAIN_STATIC_MEMORY
-typedef std::vector<pbrain_mem_type> Mem;
+typedef std::vector<PBRAIN_MEM_TYPE> Mem;
 Mem mem(PBRAIN_INIT_MEM_SIZE);
 Mem::size_type mp = 0;
 #else
@@ -136,18 +136,19 @@ std::wostream& io_types<wchar_t>::cout = std::wcout;
 
 
 // Useful type that chooses the appropriate typedefs for the character width
-typedef io_types<pbrain_character_type> io;
+typedef io_types<PBRAIN_CHARACTER_TYPE> io;
 
 // Type for storing a string of instructions; used for procedures and loops
-typedef std::vector<pbrain_character_type> SourceBlock;
+typedef std::vector<PBRAIN_CHARACTER_TYPE> SourceBlock;
 
 // Type for storing procedures indexed by number
-typedef std::map<pbrain_mem_type, std::vector<PBRAIN_CHARACTER_TYPE> > Procedures;
+typedef std::map<PBRAIN_MEM_TYPE, std::vector<PBRAIN_CHARACTER_TYPE> > Procedures;
 
 
 // Map of procedure IDs to procedures
 Procedures procedures;
 
+template<typename It> void loop(It ii, It eos);
 
 // Interpret a container of instructions
 template<typename It> void interpret(It ii, It eos)
@@ -201,7 +202,7 @@ template<typename It> void interpret(It ii, It eos)
             break;
 
          case ',':
-            mem[mp] = static_cast<pbrain_mem_type>(io::cin.get());
+            mem[mp] = static_cast<PBRAIN_MEM_TYPE>(io::cin.get());
             break;
 
          case '[':
@@ -326,10 +327,10 @@ try {
    }
 }
 catch (int e) {
-   std::cerr << "Error " << e << ", cell " << unsigned int(mp) << "\n";
+   std::cerr << "Error " << e << ", cell " << (unsigned int)(mp) << "\n";
    exit(e);
 }
 catch (...) {
-   std::cerr << "Error " << 999 << ", cell " << unsigned int(mp) << "\n";
+   std::cerr << "Error " << 999 << ", cell " << (unsigned int)(mp) << "\n";
    exit(999);
 }
